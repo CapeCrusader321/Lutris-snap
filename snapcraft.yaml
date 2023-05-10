@@ -9,7 +9,9 @@ confinement: strict
 compression: lzo
 architectures:
   - build-on: amd64
-    build-for: amd64
+  - build-on: arm64
+  - build-on: armhf
+  
 layout:
   /usr/share/libdrm:
     bind: $SNAP/graphics/usr/share/libdrm
