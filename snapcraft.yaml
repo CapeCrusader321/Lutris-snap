@@ -41,11 +41,19 @@ apps:
       - network-bind
       - network-status
       - raw-usb
+      - joystick
+      - audio-record
+      - process-control
+      - bluez
+      - network-control
       - shmem
       - unity7
       - removable-media
       - optical-drive
       - screen-inhibit-control
+      - hardware-observe
+      - mount-observe
+      - system-observe
     
 plugs:
   shmem:
