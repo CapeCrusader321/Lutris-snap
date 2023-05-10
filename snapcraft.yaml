@@ -1,1 +1,82 @@
+name: lutris
+base: core22
+version: '0.5.12'
+summary: Video game preservation platform.
+description: |
+   Lutris helps you install and play video games from all eras and from most gaming systems. 
+grade: stable
+confinement: strict
+compression: lzo
+architectures:
+  - build-on: amd64
+    build-for: amd64
+layout:
+  /usr/share/libdrm:
+    bind: $SNAP/graphics/usr/share/libdrm
+  /usr/share/drirc.d:
+    symlink: $SNAP/graphics/usr/share/drirc.d
+  /usr/share/X11/XErrorDB:
+    symlink: $SNAP/graphics/usr/share/X11/XErrorDB
+  /usr/share/X11/locale:
+    symlink: $SNAP/graphics/usr/share/X11/locale  
 
+
+apps:
+  lutris:
+    command-chain:
+    - bin/graphics-core22-wrapper
+    command: usr/games/lutris
+    extensions: [gnome]
+    common-id: net.lutris.Lutris 
+    desktop: usr/share/applications/net.lutris.Lutris.desktop 
+    environment:
+      GTK_USE_PORTAL: "1"
+      TMPDIR: $XDG_RUNTIME_DIR
+    plugs:
+      - home
+      - audio-playback
+      - network
+      - network-bind
+      - network-status
+      - raw-usb
+      - shmem
+      - unity7
+      - removable-media
+      - optical-drive
+      - screen-inhibit-control
+    
+plugs:
+  shmem:
+    interface: shared-memory
+    private: true
+  graphics-core22:
+    interface: content
+    target: $SNAP/graphics
+    default-provider: mesa-core22
+  
+  
+slots:    
+  lutris:
+    interface: dbus
+    bus: session
+    name: net.lutris.Lutris  
+  
+
+parts:
+  lutris:
+    source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
+    plugin: dump
+    stage-packages:
+      - fluid-soundfont-gm
+      - fluid-soundfont-gs
+      - python3-setproctitle
+      
+  graphics-core22:
+    after: [lutris]
+    source: https://github.com/MirServer/graphics-core22.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
+    prime:
+    - bin/graphics-core22-wrapper
