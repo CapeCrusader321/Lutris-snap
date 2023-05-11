@@ -94,6 +94,7 @@ parts:
       - psmisc 
       - python3-lxml
       - python3-dbus
+      - python-gi-dev
   
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
