@@ -101,7 +101,7 @@ parts:
     source-branch: "add-snap-support"
     plugin: meson
     organize:
-      snap/steam/current/usr: usr
+      snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
     build-packages:
