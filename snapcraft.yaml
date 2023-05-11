@@ -33,6 +33,7 @@ apps:
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     environment:
       GTK_USE_PORTAL: "1"
+      #HOME: $SNAP_USER_COMMON
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - home
@@ -75,12 +76,42 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
+    after: [gamemode]
     plugin: dump
     stage-packages:
       - fluid-soundfont-gm
       - fluid-soundfont-gs
       - python3-setproctitle
-      
+      - python3-gi
+      - cabextract
+      - curl
+      - gir1.2-webkit2-4.1
+      - unzip
+      - python3-magic
+      - gvfs-backends
+      - python3-evdev
+      - gir1.2-gtk-3.0
+      - p7zip
+      - psmisc 
+      - python3-lxml
+      - python3-dbus
+  
+  gamemode:
+    source: https://github.com/ashuntu/gamemode.git
+    source-branch: "add-snap-support"
+    plugin: meson
+    organize:
+      snap/steam/current/usr: usr
+    meson-parameters:
+      - --prefix=/usr
+    build-packages:
+      - libsystemd-dev
+      - pkg-config
+      - libdbus-1-dev
+    prime:
+      - usr/bin/gamemoderun
+      - usr/lib/*/libgamemode*.so.*
+  
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
