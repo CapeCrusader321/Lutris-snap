@@ -1,6 +1,6 @@
 name: lutris
 base: core22
-version: '0.5.12'
+version: 0.5.12
 summary: Video game preservation platform.
 description: |
    Lutris helps you install and play video games from all eras and from most gaming systems. 
@@ -76,7 +76,7 @@ slots:
 
 parts:
   lutris:
-    source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
+    source: https://github.com/lutris/lutris/releases/download/v$CRAFT_PROJECT_VERSION/lutris_$CRAFT_PROJECT_VERSION_all.deb
     after: [gamemode]
     plugin: dump
     stage-packages:
@@ -95,6 +95,10 @@ parts:
       - python3-lxml
       - python3-dbus
       - python-gi-dev
+      - python3-pil
+      - python3-requests
+      - python3-distro
+      
   
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
