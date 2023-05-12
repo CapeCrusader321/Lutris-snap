@@ -1,6 +1,6 @@
 name: lutris
 base: core22
-version: 0.5.12
+version: '0.5.12'
 summary: Video game preservation platform.
 description: |
    Lutris helps you install and play video games from all eras and from most gaming systems. 
