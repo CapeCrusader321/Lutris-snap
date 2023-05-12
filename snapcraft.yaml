@@ -76,7 +76,7 @@ slots:
 
 parts:
   lutris:
-    source: https://github.com/lutris/lutris/releases/download/v$CRAFT_PROJECT_VERSION/lutris_$CRAFT_PROJECT_VERSION_all.deb
+    source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_$CRAFT_PROJECT_VERSION_all.deb
     after: [gamemode]
     plugin: dump
     stage-packages:
