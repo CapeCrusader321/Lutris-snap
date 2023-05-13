@@ -103,7 +103,6 @@ parts:
       - libgnutls30
       - libvulkan1
       - libxrandr2
-      - mesa-utils
       - p7zip
       - psmisc
       - python3-dbus
