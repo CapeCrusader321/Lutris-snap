@@ -106,6 +106,7 @@ parts:
       - mesa-utils
       - p7zip
       - psmisc
+      - python3.10
       - python3-dbus
       - python3-gi
       - python3-pil
@@ -216,7 +217,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: bin/lutris -d
+    command: ${SNAP}/usr/bin/python3.10 ${SNAP}bin/lutris -d
     extensions: [gnome]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
