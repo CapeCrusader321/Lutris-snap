@@ -137,48 +137,6 @@ parts:
     prime:
     - bin/graphics-core22-wrapper
   
-  
-  wine:
-    plugin: nil
-    build-packages:
-      - dpkg
-      - wget
-    override-build: |
-      craftctl default
-
-      ARCH="$(dpkg --print-architecture)"
-      WINE_VER="8.0.1"
-
-      # wget and dpkg extract the wine debs
-      ## supporting binaries which are arch-specific but the same filenames in both architectures so we only install the native architecture
-      DEB_URLS="https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/main/binary-${ARCH}/wine-stable_${WINE_VER}~jammy-1_${ARCH}.deb"
-
-      ## wine loaders - this one is the native system architecture
-      DEB_URLS="$DEB_URLS https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/main/binary-${ARCH}/wine-stable-${ARCH}_${WINE_VER}~jammy-1_${ARCH}.deb"
-
-      if [ "$ARCH" = "amd64" ]; then
-        ## on amd64 builds we need to also bundle the i386 wine loaders
-        DEB_URLS="$DEB_URLS https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/main/binary-i386/wine-stable-i386_${WINE_VER}~jammy-1_i386.deb"
-      fi
-
-      for DEB_URL in ${DEB_URLS}; do
-        DEB=$(basename "${DEB_URL}")
-        echo "Downloading ${DEB_URL}..."
-        wget --quiet "${DEB_URL}" -O "${CRAFT_PART_INSTALL}/${DEB}"
-        echo "Unpacking ${DEB}..."
-        dpkg -x "${CRAFT_PART_INSTALL}/${DEB}" ${CRAFT_PART_INSTALL}
-        rm -f "${CRAFT_PART_INSTALL}/${DEB}"
-      done
-
-      #Cleanup
-      rm -rf ${CRAFT_PART_INSTALL}/opt/wine-stable/share/applications
-      rm -rf ${CRAFT_PART_INSTALL}/opt/wine-stable/share/man
-      rm -rf ${CRAFT_PART_INSTALL}/usr
-
-      # Disable winemenubuilder
-      sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' "${CRAFT_PART_INSTALL}"/opt/wine-stable/share/wine/wine.inf
-  
-  
 layout:
   /etc/ld.so.cache:
     bind-file: $SNAP_DATA/etc/ld.so.cache
@@ -205,6 +163,9 @@ plugs:
     interface: content
     target: $SNAP/graphics
     default-provider: mesa-core22
+  wine-latest:
+    interface: content
+    default-provider: wine-latest
   
 
 environment:
