@@ -10,7 +10,7 @@ architectures:
     
 lint:
   # Snapcraft's `ldd` lint can't handle 32-bit things,
-  # So just make it quiet and also make builds a surprising amount faster
+  # So just make it quieter and also make builds a surprising amount faster
   ignore:
     - library:
         - lib/i386-linux-gnu/**
