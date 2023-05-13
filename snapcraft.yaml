@@ -8,17 +8,18 @@ architectures:
   - build-on: amd64
     build-for: amd64
     
-parts:
-  lint:
+lint:
   # Snapcraft's `ldd` lint can't handle 32-bit things,
   # So just make it quiet and also make builds a surprising amount faster
-    ignore:
-      - library:
-          - lib/i386-linux-gnu/**
-          - usr/lib/i386-linux-gnu/**
-          - lib32/**
-          - usr/lib32/**
-  
+  ignore:
+    - library:
+        - lib/i386-linux-gnu/**
+        - usr/lib/i386-linux-gnu/**
+        - lib32/**
+        - usr/lib32/**
+      
+    
+parts:
   extensible-hooks:
     plugin: dump
     source: https://github.com/diddlesnaps/snapcraft-utils-library.git
