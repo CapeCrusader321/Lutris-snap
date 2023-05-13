@@ -78,7 +78,12 @@ parts:
       - python3-requests
       - python3-setproctitle
       - python3-yaml
-  
+    override-build: |
+      craftctl default
+      # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
+      sed -e '1c#!/usr/bin/env python3' -i ${CRAFT_PART_INSTALL}/snap/lutris/current/bin/lutris
+    
+    
   lutris-runtime:
     after: [enable-i386]
     plugin: nil
@@ -193,23 +198,25 @@ apps:
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
     plugs:
-      - audio-playback
-      - browser-support
-      - daemon-notify
-      - hardware-observe
       - home
-      - io-ports-control
-      - joystick
-      - kvm
-      - libvirt
-      - mount-observe
+      - audio-playback
       - network
       - network-bind
-      - network-manager
-      - pulseaudio
-      - removable-media
-      - screen-inhibit-control
+      - network-status
+      - raw-usb
+      - joystick
+      - audio-record
+      - process-control
+      - bluez
+      - network-control
+      - shmem
       - unity7
+      - removable-media
+      - optical-drive
+      - screen-inhibit-control
+      - hardware-observe
+      - mount-observe
+      - system-observe
     slots:
       - dbus-lutris
 
