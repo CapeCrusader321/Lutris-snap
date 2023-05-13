@@ -73,6 +73,10 @@ parts:
     override-pull: |
       craftctl default
       sed -i 's|Icon=.*|Icon=${SNAP}/share/icons/hicolor/scalable/apps/lutris.svg|' share/applications/net.lutris.Lutris.desktop
+    build-environment:
+      # WORKAROUND: The python plugin is broken with gnome extension
+      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
+      - PYTHONPATH: ""
     build-packages:
       - gobject-introspection
       - libgirepository1.0-dev
@@ -86,6 +90,21 @@ parts:
       craftctl default
       # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
       sed -e '1c#!/usr/bin/env python3' -i ${CRAFT_PART_INSTALL}/snap/lutris/current/bin/lutris
+    stage:
+      # WORKAROUND: Skip venv from python plugin
+      - -bin/activate
+      - -bin/activate.csh
+      - -bin/activate.fish
+      - -bin/Activate.ps1
+      - -bin/python
+      - -bin/python3
+      - -bin/python3.10
+      - -bin/pip
+      - -bin/pip3
+      - -bin/pip3.10
+      - -pyvenv.cfg
+    
+    
     
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
