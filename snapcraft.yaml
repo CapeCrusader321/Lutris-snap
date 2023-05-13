@@ -182,6 +182,7 @@ plugs:
 
 environment:
   HOME: $SNAP_USER_COMMON
+  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
 
 apps:
   lutris:
