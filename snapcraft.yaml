@@ -165,6 +165,7 @@ plugs:
     default-provider: mesa-core22
   wine-latest:
     interface: content
+    target: $SNAP/wine-runtime
     default-provider: wine-latest
   
 
