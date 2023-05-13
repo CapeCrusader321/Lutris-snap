@@ -134,14 +134,7 @@ parts:
       - xterm
       - xz-utils
       - on amd64:
-          - lib32gcc1
           - libc6-i386
-          - libglu1-mesa:i386
-          - libglvnd0:i386
-          - libglx-mesa0:i386
-          - libgnutls30:i386
-          - libx11-6:i386
-          - x11-xserver-utils:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
