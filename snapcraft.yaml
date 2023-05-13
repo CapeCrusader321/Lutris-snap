@@ -216,7 +216,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: $SNAP/bin/lutris -d
+    command: bin/lutris -d
     extensions: [gnome]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
