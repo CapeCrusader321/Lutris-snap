@@ -163,9 +163,6 @@ parts:
       ARCH="$(dpkg --print-architecture)"
       WINE_VER="8.0.1"
 
-      # set snap version
-      craftctl set version="$WINE_VER"
-
       # wget and dpkg extract the wine debs
       ## supporting binaries which are arch-specific but the same filenames in both architectures so we only install the native architecture
       DEB_URLS="https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/main/binary-${ARCH}/wine-stable_${WINE_VER}~jammy-1_${ARCH}.deb"
