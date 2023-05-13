@@ -106,7 +106,6 @@ parts:
       - mesa-utils
       - p7zip
       - psmisc
-      - python3.10
       - python3-dbus
       - python3-gi
       - python3-pil
@@ -115,7 +114,6 @@ parts:
       - python3-yaml
       - unzip
       - x11-xserver-utils
-      - xterm
       - xz-utils
       - on amd64:
           - libc6-i386
@@ -179,7 +177,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: usr/bin/python3.10 bin/lutris -d
+    command: bin/lutris -d
     extensions: [gnome]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
