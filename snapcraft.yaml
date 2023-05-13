@@ -179,7 +179,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: ${SNAP}/usr/bin/python3.10 ${SNAP}bin/lutris -d
+    command: usr/bin/python3.10 bin/lutris -d
     extensions: [gnome]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
