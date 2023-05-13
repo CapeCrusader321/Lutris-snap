@@ -12,9 +12,9 @@ package-repositories:
   - type: apt
     deb-types: [deb]
     components: [main]
-    suites: [$CRAFT_APT_RELEASE]
+    suites: [jammy]
     key-id: 76F1A20FF987672F
-    url: https://dl.winehq.org/wine-builds/ubuntu/
+    url: https://dl.winehq.org/wine-builds/ubuntu
 
 parts:
   extensible-hooks:
