@@ -53,8 +53,6 @@ parts:
       #!/bin/sh
       rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
       if [ "$CRAFT_ARCH" = "amd64" ]; then
-        export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
-
         export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
         export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
         export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
@@ -64,7 +62,8 @@ parts:
       chmod +x gnome-extension-hack
     organize:
       gnome-extension-hack: bin/gnome-extension-hack
-
+  #export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
+  
   lutris:
     after: [enable-i386, gamemode]
     plugin: python
