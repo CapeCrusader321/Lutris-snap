@@ -44,25 +44,6 @@ parts:
         apt update
       fi
 
-  gnome-extension-hack:
-    plugin: dump
-    source: .
-    override-pull: |
-      craftctl default
-      cat <<'EOF' > gnome-extension-hack
-      #!/bin/sh
-      rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
-      if [ "$CRAFT_ARCH" = "amd64" ]; then
-        export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
-        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
-        export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
-      fi
-      exec "$@"
-      EOF
-      chmod +x gnome-extension-hack
-    organize:
-      gnome-extension-hack: bin/gnome-extension-hack
-  #export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
   
   lutris:
     after: [enable-i386, gamemode]
@@ -221,12 +202,11 @@ hooks:
     command-chain:
       - snap/command-chain/snapcraft-runner
       - snap/command-chain/desktop-launch
-      - bin/gnome-extension-hack
   post-refresh:
     command-chain:
       - snap/command-chain/snapcraft-runner
       - snap/command-chain/desktop-launch
-      - bin/gnome-extension-hack
+    
 
 layout:
   /etc/ld.so.cache:
@@ -239,10 +219,7 @@ layout:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/usr/share/X11/locale  
-  /usr/lib/$CRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
-    bind: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/webkit2gtk-4.0
   
-
 slots:
   lutris:
     interface: dbus
@@ -260,9 +237,11 @@ plugs:
   
 
 environment:
-  HOME: $SNAP_USER_COMMON
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-
+  LD_LIBRARY_PATH: $LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu
+  LIBVA_DRIVERS_PATH: $SNAP/usr/lib/i386-linux-gnu/dri
+  LIBGL_DRIVERS_PATH: $SNAP/graphics/usr/lib/i386-linux-gnu/dri:$SNAP/graphics/usr/lib/x86_64-linux-gnu/dri:${LIBGL_DRIVERS_PATH:+:$LIBGL_DRIVERS_PATH}
+  
 apps:
   lutris:
     command-chain:
