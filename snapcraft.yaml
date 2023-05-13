@@ -38,7 +38,7 @@ parts:
   enable-i386:
     plugin: nil
     override-build: |
-      craftctl build
+      craftctl default
       if [ "$CRAFT_ARCH_TRIPLET" = "x86_64-linux-gnu" ]; then
         dpkg --add-architecture i386
         apt update
