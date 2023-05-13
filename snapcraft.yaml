@@ -217,17 +217,4 @@ apps:
       - hardware-observe
       - mount-observe
       - system-observe
-    slots:
-      - dbus-lutris
-
-  # wine:
-  #   extensions: [gnome-3-28]
-  #   command: usr/bin/wine-stable
-  
-  # wine64:
-  #   extensions: [gnome-3-28]
-  #   command: usr/bin/wine64-stable
-  
-  # winecfg:
-  #   extensions: [gnome-3-28]
-  #   command: usr/bin/winecfg-stable
+    
