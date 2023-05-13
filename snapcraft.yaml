@@ -28,7 +28,6 @@ parts:
   ld-precache:
     after:
       - extensible-hooks
-      - gnome-extension-hack
       - lutris
       - lutris-runtime
     plugin: dump
