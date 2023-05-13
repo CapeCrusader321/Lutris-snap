@@ -23,7 +23,7 @@ parts:
   extensible-hooks:
     plugin: dump
     source: https://github.com/diddlesnaps/snapcraft-utils-library.git
-    source-subdir: craft-assets/extensible-hooks
+    source-subdir: snapcraft-assets/extensible-hooks
 
   ld-precache:
     after:
@@ -33,7 +33,7 @@ parts:
       - lutris-runtime
     plugin: dump
     source: https://github.com/diddlesnaps/snapcraft-utils-library.git
-    source-subdir: craft-assets/ld-precache
+    source-subdir: snapcraft-assets/ld-precache
 
   enable-i386:
     plugin: nil
