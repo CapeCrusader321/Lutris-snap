@@ -20,20 +20,6 @@ lint:
       
     
 parts:
-  extensible-hooks:
-    plugin: dump
-    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
-    source-subdir: snapcraft-assets/extensible-hooks
-
-  ld-precache:
-    after:
-      - extensible-hooks
-      - lutris
-      - lutris-runtime
-    plugin: dump
-    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
-    source-subdir: snapcraft-assets/ld-precache
-
   enable-i386:
     plugin: nil
     override-build: |
@@ -193,17 +179,6 @@ parts:
       sed -i 's/winemenubuilder.exe -a -r/winemenubuilder.exe -r/g' "${CRAFT_PART_INSTALL}"/opt/wine-stable/share/wine/wine.inf
   
   
-hooks:
-  install:
-    command-chain:
-      - snap/command-chain/snapcraft-runner
-      - snap/command-chain/desktop-launch
-  post-refresh:
-    command-chain:
-      - snap/command-chain/snapcraft-runner
-      - snap/command-chain/desktop-launch
-    
-
 layout:
   /etc/ld.so.cache:
     bind-file: $SNAP_DATA/etc/ld.so.cache
@@ -242,7 +217,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: bin/gnome-extension-hack $SNAP/usr/bin/python3 $SNAP/bin/lutris -d
+    command: $SNAP/usr/bin/python3 $SNAP/bin/lutris -d
     extensions: [gnome]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
