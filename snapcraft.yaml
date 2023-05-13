@@ -10,7 +10,6 @@ architectures:
 
 package-repositories:
   - type: apt
-    deb-types: [deb]
     components: [main]
     suites: [jammy]
     key-id: 76F1A20FF987672F
