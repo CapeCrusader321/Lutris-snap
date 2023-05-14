@@ -100,17 +100,13 @@ apps:
     plugs:
       - audio-playback
       - browser-support
-      - daemon-notify
       - hardware-observe
       - home
       - joystick
-      - kvm
-      - libvirt
       - mount-observe
       - network
       - network-bind
       - network-manager
-      - pulseaudio
       - removable-media
       - screen-inhibit-control
       - unity7
