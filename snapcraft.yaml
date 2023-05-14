@@ -77,9 +77,18 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
-    after: [gamemode, lutris-runtime]
+    after: [gamemode, lutris-runtime, enable-i386]
     plugin: dump
-      
+  
+  enable-i386:
+    plugin: nil
+    override-build: |
+      craftctl default
+      if [ "$CRAFT_ARCH_TRIPLET" = "x86_64-linux-gnu" ]; then
+        dpkg --add-architecture i386
+        apt update
+      fi
+  
   lutris-runtime:
     after: [enable-i386]
     plugin: nil
