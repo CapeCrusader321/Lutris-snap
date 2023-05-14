@@ -69,6 +69,8 @@ parts:
       - gobject-introspection
       - libgirepository1.0-dev
       - python3.10
+      - python3.10-dev
+      - python3.10-distutils
       - python3-gi
       - python3-pil
       - python3-requests
