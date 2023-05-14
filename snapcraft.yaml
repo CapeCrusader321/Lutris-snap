@@ -1,12 +1,12 @@
 name: lutris
 confinement: strict
-base: core22
+base: core20
 grade: stable
 adopt-info: lutris
 compression: lzo
 architectures:
   - build-on: amd64
-    build-for: amd64
+    run-on: amd64
     
 lint:
   # Snapcraft's `ldd` lint can't handle 32-bit things,
@@ -23,12 +23,34 @@ parts:
   enable-i386:
     plugin: nil
     override-build: |
-      craftctl default
-      if [ "$CRAFT_ARCH_TRIPLET" = "x86_64-linux-gnu" ]; then
+      snapcraftctl build
+      if [ "$SNAPCRAFT_ARCH_TRIPLET" = "x86_64-linux-gnu" ]; then
         dpkg --add-architecture i386
         apt update
       fi
 
+  gnome-extension-hack:
+    plugin: dump
+    source: .
+    override-pull: |
+      snapcraftctl pull
+      cat <<'EOF' > gnome-extension-hack
+      #!/bin/sh
+      rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
+      if [ "$SNAP_ARCH" = "amd64" ]; then
+        export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
+
+        export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
+        export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
+      fi
+      exec "$@"
+      EOF
+      chmod +x gnome-extension-hack
+    organize:
+      gnome-extension-hack: bin/gnome-extension-hack
+  
+  
   
   lutris:
     after: [enable-i386, gamemode]
@@ -36,12 +58,8 @@ parts:
     source: https://github.com/lutris/lutris.git
     parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
     override-pull: |
-      craftctl default
+      snapcraftctl pull
       sed -i 's|Icon=.*|Icon=${SNAP}/share/icons/hicolor/scalable/apps/lutris.svg|' share/applications/net.lutris.Lutris.desktop
-    build-environment:
-      # WORKAROUND: The python plugin is broken with gnome extension
-      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
-      - PYTHONPATH: ""
     build-packages:
       - gobject-introspection
       - libgirepository1.0-dev
@@ -51,25 +69,6 @@ parts:
       - python3-requests
       - python3-setproctitle
       - python3-yaml
-    override-build: |
-      craftctl default
-      # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
-      sed -e '1c#!/usr/bin/env python3' -i ${CRAFT_PART_INSTALL}/bin/lutris
-    stage:
-      # WORKAROUND: Skip venv from python plugin
-      - -bin/activate
-      - -bin/activate.csh
-      - -bin/activate.fish
-      - -bin/Activate.ps1
-      - -bin/python
-      - -bin/python3
-      - -bin/python3.10
-      - -bin/pip
-      - -bin/pip3
-      - -bin/pip3.10
-      - -pyvenv.cfg
-    
-    
     
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
@@ -124,28 +123,15 @@ parts:
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
   
-  graphics-core22:
-    after: [lutris]
-    source: https://github.com/MirServer/graphics-core22.git
-    plugin: dump
-    override-prime: |
-      craftctl default
-      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
-    prime:
-    - bin/graphics-core22-wrapper
+hooks:
+  install:
+    command-chain:
+    - bin/gnome-extension-hack
   
-layout:
-  /etc/ld.so.cache:
-    bind-file: $SNAP_DATA/etc/ld.so.cache
-  /usr/share/libdrm:
-    bind: $SNAP/graphics/usr/share/libdrm
-  /usr/share/drirc.d:
-    symlink: $SNAP/graphics/usr/share/drirc.d
-  /usr/share/X11/XErrorDB:
-    symlink: $SNAP/graphics/usr/share/X11/XErrorDB
-  /usr/share/X11/locale:
-    symlink: $SNAP/graphics/usr/share/X11/locale  
-  
+  post-refresh:
+    command-chain:
+    - bin/gnome-extension-hack
+
 slots:
   lutris:
     interface: dbus
@@ -156,28 +142,12 @@ plugs:
   shmem:
     interface: shared-memory
     private: true
-  graphics-core22:
-    interface: content
-    target: $SNAP/graphics
-    default-provider: mesa-core22
-  wine-latest:
-    interface: content
-    target: $SNAP/wine-runtime
-    default-provider: wine-latest
   
-
-environment:
-  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-  LD_LIBRARY_PATH: $LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu
-  LIBVA_DRIVERS_PATH: $SNAP/usr/lib/i386-linux-gnu/dri
-  LIBGL_DRIVERS_PATH: $SNAP/graphics/usr/lib/i386-linux-gnu/dri:$SNAP/graphics/usr/lib/x86_64-linux-gnu/dri:${LIBGL_DRIVERS_PATH:+:$LIBGL_DRIVERS_PATH}
   
 apps:
   lutris:
-    command-chain:
-    - bin/graphics-core22-wrapper
-    command: bin/lutris -d
-    extensions: [gnome]
+    command: bin/gnome-extension-hack $SNAP/bin/lutris -d   
+    extensions: [gnome-3-38]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
     plugs:
