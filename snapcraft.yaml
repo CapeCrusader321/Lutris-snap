@@ -1,14 +1,37 @@
 name: lutris
 confinement: strict
-base: core20
+base: core18
 grade: stable
 adopt-info: lutris
-compression: lzo
+
 architectures:
   - build-on: amd64
-    run-on: amd64
+  - build-on: i386
+
+# package-repositories:
+#   - type: apt
+#     deb-types: [deb]
+#     components: [main]
+#     suites: [$SNAPCRAFT_APT_RELEASE]
+#     key-id: 76F1A20FF987672F
+#     url: https://dl.winehq.org/wine-builds/ubuntu/
 
 parts:
+  extensible-hooks:
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
+    source-subdir: snapcraft-assets/extensible-hooks
+
+  ld-precache:
+    after:
+      - extensible-hooks
+      - gnome-extension-hack
+      - lutris
+      - lutris-runtime
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
+    source-subdir: snapcraft-assets/ld-precache
+
   enable-i386:
     plugin: nil
     override-build: |
@@ -17,6 +40,26 @@ parts:
         dpkg --add-architecture i386
         apt update
       fi
+
+  gnome-extension-hack:
+    plugin: dump
+    source: .
+    override-pull: |
+      cat <<'EOF' > gnome-extension-hack
+      #!/bin/sh
+      rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
+      if [ "$SNAP_ARCH" = "amd64" ]; then
+        export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
+
+        export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
+        export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
+      fi
+      exec "$@"
+      EOF
+      chmod +x gnome-extension-hack
+    organize:
+      gnome-extension-hack: bin/gnome-extension-hack
 
   lutris:
     after: [enable-i386]
@@ -63,9 +106,20 @@ parts:
       - python3-setproctitle
       - python3-yaml
       - unzip
+      - wine
       - x11-xserver-utils
+      - xterm
       - xz-utils
-      - libc6-i386
+      - on amd64:
+          - lib32gcc1
+          - libc6-i386
+          - libglu1-mesa:i386
+          - libglvnd0:i386
+          - libglx-mesa0:i386
+          - libgnutls30:i386
+          - libvulkan1:i386
+          - libx11-6:i386
+          - x11-xserver-utils:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
@@ -74,6 +128,17 @@ parts:
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
 
+hooks:
+  install:
+    command-chain:
+      - snap/command-chain/snapcraft-runner
+      - snap/command-chain/desktop-launch
+      - bin/gnome-extension-hack
+  post-refresh:
+    command-chain:
+      - snap/command-chain/snapcraft-runner
+      - snap/command-chain/desktop-launch
+      - bin/gnome-extension-hack
 
 layout:
   /etc/ld.so.cache:
@@ -85,36 +150,50 @@ slots:
     bus: session
     name: net.lutris.Lutris
 
-plugs:
-  wine-7-devel:
-    interface: content
-    target: $SNAP/wine-platform
-    default-provider: wine-platform-7-devel-core20 
-
-
 environment:
   HOME: $SNAP_USER_COMMON
-  LD_LIBRARY_PATH: $SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH
-  LIBGL_DRIVERS_PATH: $LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
-  LIBVA_DRIVERS_PATH: $SNAP/usr/lib/i386-linux-gnu/dri
 
 apps:
   lutris:
-    command: usr/bin/python3 $SNAP/bin/lutris -d
-    extensions: [gnome-3-38]
+    command: bin/gnome-extension-hack $SNAP/usr/bin/python3 $SNAP/bin/lutris -d
+    extensions: [gnome-3-28]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
     plugs:
       - audio-playback
       - browser-support
+      - daemon-notify
+      - desktop
+      - desktop-legacy
+      - gsettings
       - hardware-observe
       - home
+      - io-ports-control
       - joystick
+      - kvm
+      - libvirt
       - mount-observe
       - network
       - network-bind
       - network-manager
+      - opengl
+      - pulseaudio
       - removable-media
       - screen-inhibit-control
       - unity7
-   
+      - wayland
+      - x11
+    slots:
+      - dbus-lutris
+
+  # wine:
+  #   extensions: [gnome-3-28]
+  #   command: usr/bin/wine-stable
+  
+  # wine64:
+  #   extensions: [gnome-3-28]
+  #   command: usr/bin/wine64-stable
+  
+  # winecfg:
+  #   extensions: [gnome-3-28]
+  #   command: usr/bin/winecfg-stable
