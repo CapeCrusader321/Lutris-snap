@@ -7,6 +7,9 @@ compression: lzo
 architectures:
   - build-on: amd64
     run-on: amd64
+package-repositories:
+ - type: apt
+   ppa: deadsnakes/ppa
 
 parts:
   extensible-hooks:
