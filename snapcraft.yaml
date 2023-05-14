@@ -1,15 +1,12 @@
 name: lutris
 confinement: strict
-base: core18
+base: core20
 grade: stable
 adopt-info: lutris
 compression: lzo
 architectures:
   - build-on: amd64
     run-on: amd64
-package-repositories:
- - type: apt
-   ppa: deadsnakes/ppa
 
 parts:
   extensible-hooks:
@@ -151,7 +148,7 @@ environment:
 apps:
   lutris:
     command: bin/gnome-extension-hack $SNAP/usr/bin/python3 $SNAP/bin/lutris -d
-    extensions: [gnome-3-34]
+    extensions: [gnome-3-38]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
     plugs:
@@ -173,5 +170,4 @@ apps:
       - removable-media
       - screen-inhibit-control
       - unity7
-    slots:
-      - dbus-lutris
+   
