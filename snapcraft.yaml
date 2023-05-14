@@ -1,15 +1,29 @@
 name: lutris
 confinement: strict
-base: core20
+base: core18
 grade: stable
 adopt-info: lutris
 compression: lzo
 architectures:
   - build-on: amd64
-    run-on: amd64
+  - build-on: i386
 
-    
 parts:
+  extensible-hooks:
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
+    source-subdir: snapcraft-assets/extensible-hooks
+
+  ld-precache:
+    after:
+      - extensible-hooks
+      - gnome-extension-hack
+      - lutris
+      - lutris-runtime
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-utils-library.git
+    source-subdir: snapcraft-assets/ld-precache
+
   enable-i386:
     plugin: nil
     override-build: |
@@ -23,7 +37,6 @@ parts:
     plugin: dump
     source: .
     override-pull: |
-      snapcraftctl pull
       cat <<'EOF' > gnome-extension-hack
       #!/bin/sh
       rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
@@ -39,13 +52,12 @@ parts:
       chmod +x gnome-extension-hack
     organize:
       gnome-extension-hack: bin/gnome-extension-hack
-  
-  
-  
+
   lutris:
-    after: [enable-i386, gamemode]
+    after: [enable-i386]
     plugin: python
-    source: https://github.com/lutris/lutris.git
+    python-version: python3
+    source: .
     parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
     override-pull: |
       snapcraftctl pull
@@ -59,23 +71,6 @@ parts:
       - python3-requests
       - python3-setproctitle
       - python3-yaml
-    
-  gamemode:
-    source: https://github.com/ashuntu/gamemode.git
-    source-branch: "add-snap-support"
-    plugin: meson
-    organize:
-      snap/lutris/current/usr: usr
-    meson-parameters:
-      - --prefix=/usr
-    build-packages:
-      - libsystemd-dev
-      - pkg-config
-      - libdbus-1-dev
-    prime:
-      - usr/bin/gamemoderun
-      - usr/lib/*/libgamemode*.so.*
-  
   
   lutris-runtime:
     after: [enable-i386]
@@ -92,8 +87,10 @@ parts:
       - libgnutls30
       - libvulkan1
       - libxrandr2
+      - mesa-utils
       - p7zip
       - psmisc
+      - python3
       - python3-dbus
       - python3-gi
       - python3-pil
@@ -101,10 +98,20 @@ parts:
       - python3-setproctitle
       - python3-yaml
       - unzip
+      - wine
       - x11-xserver-utils
+      - xterm
       - xz-utils
       - on amd64:
+          - lib32gcc1
           - libc6-i386
+          - libglu1-mesa:i386
+          - libglvnd0:i386
+          - libglx-mesa0:i386
+          - libgnutls30:i386
+          - libvulkan1:i386
+          - libx11-6:i386
+          - x11-xserver-utils:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
@@ -112,52 +119,56 @@ parts:
       - -usr/lib/*/libwebkit*
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
-  
+
 hooks:
   install:
     command-chain:
-    - bin/gnome-extension-hack
-  
+      - snap/command-chain/snapcraft-runner
+      - snap/command-chain/desktop-launch
+      - bin/gnome-extension-hack
   post-refresh:
     command-chain:
-    - bin/gnome-extension-hack
+      - snap/command-chain/snapcraft-runner
+      - snap/command-chain/desktop-launch
+      - bin/gnome-extension-hack
+
+layout:
+  /etc/ld.so.cache:
+    bind-file: $SNAP_DATA/etc/ld.so.cache
 
 slots:
-  lutris:
+  dbus-lutris:
     interface: dbus
     bus: session
     name: net.lutris.Lutris
 
-plugs:
-  shmem:
-    interface: shared-memory
-    private: true
-  
-  
+environment:
+  HOME: $SNAP_USER_COMMON
+
 apps:
   lutris:
-    command: bin/gnome-extension-hack $SNAP/bin/lutris -d   
-    extensions: [gnome-3-38]
+    command: bin/gnome-extension-hack $SNAP/usr/bin/python3 $SNAP/bin/lutris -d
+    extensions: [gnome-3-34]
     desktop: share/applications/net.lutris.Lutris.desktop
     common-id: net.lutris.Lutris
     plugs:
-      - home
       - audio-playback
+      - browser-support
+      - daemon-notify
+      - hardware-observe
+      - home
+      - io-ports-control
+      - joystick
+      - kvm
+      - libvirt
+      - mount-observe
       - network
       - network-bind
-      - network-status
-      - raw-usb
-      - joystick
-      - audio-record
-      - process-control
-      - bluez
-      - network-control
-      - shmem
-      - unity7
+      - network-manager
+      - opengl
+      - pulseaudio
       - removable-media
-      - optical-drive
       - screen-inhibit-control
-      - hardware-observe
-      - mount-observe
-      - system-observe
-    
+      - unity7
+    slots:
+      - dbus-lutris
