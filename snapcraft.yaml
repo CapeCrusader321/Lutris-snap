@@ -21,8 +21,8 @@ layout:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/usr/share/X11/locale  
-  /usr/lib/$CRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
-    bind: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/webkit2gtk-4.0
+  /usr/bin/python3.10:
+    bind-file: $SNAP/usr/bin/python3.10
 
 apps:
   lutris:
@@ -77,28 +77,46 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
-    after: [gamemode]
+    after: [gamemode, lutris-runtime]
     plugin: dump
+      
+  lutris-runtime:
+    after: [enable-i386]
+    plugin: nil
     stage-packages:
-      - fluid-soundfont-gm
-      - fluid-soundfont-gs
-      - python3-setproctitle
-      - python3-gi
       - cabextract
       - curl
-      - unzip
-      - python3-magic
-      - gvfs-backends
-      - python3-evdev
+      - fluid-soundfont-gs
+      - gir1.2-glib-2.0
+      - gir1.2-gnomedesktop-3.0
+      - gir1.2-gtk-3.0
+      - gir1.2-notify-0.7
+      - gir1.2-webkit2-4.0
+      - libgnutls30
+      - libvulkan1
+      - libxrandr2
+      - mesa-utils
       - p7zip
-      - psmisc 
-      - python3-lxml
+      - psmisc
+      - python3.10
       - python3-dbus
-      - python-gi-dev
+      - python3-gi
       - python3-pil
       - python3-requests
-      - python3-distro
-      
+      - python3-setproctitle
+      - python3-yaml
+      - unzip
+      - x11-xserver-utils
+      - xz-utils
+      - libc6-i386
+    stage:
+      - -lib/ld-linux.so.2
+      - -usr/bin/cpp-7
+      - -usr/lib/*/libjavascript*
+      - -usr/lib/*/libwebkit*
+      - -usr/share/doc/cpp/README.Debian
+      - -usr/share/man/man1/cpp-7.1.gz
+  
   
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
