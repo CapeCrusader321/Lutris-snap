@@ -129,6 +129,7 @@ parts:
       - python3-yaml
       - python3-distro
       - python3-cairo
+      - python3-lxml
       - unzip
       - xterm
       - pciutils
