@@ -9,8 +9,8 @@ confinement: strict
 compression: lzo
 architectures:
   - build-on: amd64
-  - build-on: arm64
-  - build-on: armhf  
+    build-for: amd64
+    
 layout:
   /usr/share/libdrm:
     bind: $SNAP/graphics/usr/share/libdrm
@@ -31,7 +31,7 @@ apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
-    command: usr/games/lutris
+    command: usr/bin/lutris
     extensions: [gnome]
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
