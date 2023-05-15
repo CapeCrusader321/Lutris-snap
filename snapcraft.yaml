@@ -115,7 +115,7 @@ parts:
       - gir1.2-glib-2.0
       - gir1.2-gtk-3.0
       - gir1.2-notify-0.7
-      - gir1.2-webkit2-4.0
+      - gir1.2-webkit2-4.1
       - libgnutls30
       - libvulkan1
       - libxrandr2
@@ -127,8 +127,11 @@ parts:
       - python3-requests
       - python3-setproctitle
       - python3-yaml
+      - python3-distro
+      - python3-cairo
       - unzip
-      - x11-xserver-utils
+      - xterm
+      - pciutils
       - xz-utils
     stage:
       - -lib/ld-linux.so.2
