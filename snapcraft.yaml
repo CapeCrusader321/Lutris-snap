@@ -133,6 +133,7 @@ parts:
       - xterm
       - pciutils
       - xz-utils
+      - libmagic1
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
