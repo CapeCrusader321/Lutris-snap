@@ -46,6 +46,7 @@ apps:
       - audio-record
       - process-control
       - bluez
+      - browser-support
       - network-control
       - shmem
       - unity7
