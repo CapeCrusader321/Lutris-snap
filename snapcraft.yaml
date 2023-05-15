@@ -1,6 +1,6 @@
 name: lutris
 base: core22
-version: 0.5.12
+adopt-info: lutris
 summary: Video game preservation platform.
 description: |
    Lutris helps you install and play video games from all eras and from most gaming systems. 
@@ -10,8 +10,7 @@ compression: lzo
 architectures:
   - build-on: amd64
   - build-on: arm64
-  - build-on: armhf
-  
+  - build-on: armhf  
 layout:
   /usr/share/libdrm:
     bind: $SNAP/graphics/usr/share/libdrm
@@ -21,9 +20,13 @@ layout:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/usr/share/X11/locale  
-  /usr/bin/python3.10:
-    bind-file: $SNAP/usr/bin/python3.10
-
+    
+environment:
+  # WORKAROUND: Add python modules in Snap to search path
+  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
+  HOME: $SNAP_USER_COMMON
+  
+  
 apps:
   lutris:
     command-chain:
@@ -32,10 +35,6 @@ apps:
     extensions: [gnome]
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
-    environment:
-      GTK_USE_PORTAL: "1"
-      HOME: $SNAP_USER_COMMON
-      TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - home
       - audio-playback
@@ -76,9 +75,23 @@ slots:
 
 parts:
   lutris:
-    source: https://github.com/lutris/lutris/releases/download/v0.5.12/lutris_0.5.12_all.deb
+    source: https://github.com/lutris/lutris.git
     after: [gamemode, lutris-runtime, enable-i386]
-    plugin: dump
+    plugin: meson
+    parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
+    meson-parameters:
+      - --prefix=/snap/lutris/current/usr
+    override-pull: |
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=0)
+      sed -i 's|Icon=.*|Icon=${SNAP}/share/icons/hicolor/scalable/apps/lutris.svg|' share/applications/net.lutris.Lutris.desktop
+    override-build: |
+      craftctl default
+      # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
+      sed -e '1c#!/usr/bin/env python3' -i ${CRAFT_PART_INSTALL}/snap/lutris/current/usr/bin/lutris
+    organize:
+      snap/lutris/current/usr: usr 
+  
   
   enable-i386:
     plugin: nil
@@ -106,7 +119,6 @@ parts:
       - libxrandr2
       - p7zip
       - psmisc
-      - python3.10
       - python3-dbus
       - python3-gi
       - python3-pil
@@ -116,7 +128,6 @@ parts:
       - unzip
       - x11-xserver-utils
       - xz-utils
-      - libc6-i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
