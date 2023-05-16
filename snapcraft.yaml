@@ -38,14 +38,11 @@ apps:
       - network
       - network-bind
       - network-status
-      - raw-usb
       - joystick
       - audio-record
       - process-control
       - bluez
       - browser-support
-      - network-control
-      - shmem
       - unity7
       - removable-media
       - optical-drive
@@ -55,9 +52,6 @@ apps:
       - system-observe
     
 plugs:
-  shmem:
-    interface: shared-memory
-    private: true
   graphics-core22:
     interface: content
     target: $SNAP/graphics
