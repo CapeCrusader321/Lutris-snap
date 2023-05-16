@@ -20,19 +20,16 @@ layout:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/usr/share/X11/locale  
-    
-environment:
-  # WORKAROUND: Add python modules in Snap to search path
-  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-  HOME: $SNAP_USER_COMMON
-  
-  
+      
 apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
+    environment:
+      PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
+      HOME: $SNAP_USER_COMMON
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
