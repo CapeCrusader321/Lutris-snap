@@ -139,7 +139,6 @@ parts:
       - libmagic1
       - wine
       - mesa-utils
-      - wine32
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
