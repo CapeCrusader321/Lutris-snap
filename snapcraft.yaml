@@ -89,7 +89,7 @@ parts:
       - --prefix=/snap/lutris/current/usr
     override-pull: |
       craftctl default
-      craftctl set version=$(git describe --tags --abbrev=0)
+      craftctl set version=$(git describe --tags --abbrev=0 | cut -c 2-)
     override-build: |
       craftctl default
       # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
