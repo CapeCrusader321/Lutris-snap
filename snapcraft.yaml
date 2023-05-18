@@ -104,13 +104,7 @@ parts:
       craftctl default
       dpkg --add-architecture i386
       apt update
-    stage-packages:
-      - libvulkan1:i386
-      - libgl1-mesa-dri:i386
-      - mesa-vulkan-drivers:i386
-      #- libgnutls30:i386
-      - libgl1-mesa-glx:i386
-  
+   
   lutris-runtime:
     after: [enable-i386]
     plugin: nil
