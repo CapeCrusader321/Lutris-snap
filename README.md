@@ -7,11 +7,6 @@
   <img alt="lutris" src="https://snapcraft.io/lutris/trending.svg?name=0" />
 </a>
 
-### _Teaser_ !
-
-<iframe src="https://snapcraft.io/lutris/embedded?button=black&channels=true&summary=true&screenshot=true" frameborder="0" width="100%" height="570px" style="border: 1px solid #CCC; border-radius: 2px;"></iframe>
-
-
 ### _Download Now_ !
 <a href="https://snapcraft.io/lutris">
   <img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
