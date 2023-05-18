@@ -138,6 +138,7 @@ parts:
       - xz-utils
       - x11-xserver-utils
       - libc6-i386
+      - libmagic1
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
