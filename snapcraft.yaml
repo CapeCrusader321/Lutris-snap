@@ -137,7 +137,6 @@ parts:
       - pciutils
       - xz-utils
       - x11-xserver-utils
-      - lib32gcc1 
       - libc6-i386
     stage:
       - -lib/ld-linux.so.2
