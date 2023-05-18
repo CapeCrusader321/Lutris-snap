@@ -102,10 +102,8 @@ parts:
     plugin: nil
     override-build: |
       craftctl default
-      if [ "$CRAFT_ARCH_TRIPLET" = "x86_64-linux-gnu" ]; then
-        dpkg --add-architecture i386
-        apt update
-      fi
+      dpkg --add-architecture i386
+      apt update
     stage-packages:
       - libvulkan1:i386
       - libgl1-mesa-dri:i386
