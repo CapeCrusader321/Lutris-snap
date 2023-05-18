@@ -1,6 +1,6 @@
 # _Lutris Snap_
-## Snap Builds of Lutris
-### Download Now !
+## _Snap Builds of Lutris_
+### _Download Now_ !
 <a href="https://snapcraft.io/lutris">
   <img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
 </a>
