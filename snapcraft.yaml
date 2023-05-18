@@ -106,12 +106,7 @@ parts:
         dpkg --add-architecture i386
         apt update
       fi
-    stage-packages:
-      - libasound2-plugins:i386
-      - libsdl2-2.0-0:i386
-      - libdbus-1-3:i386 
-      - libsqlite3-0:i386
-  
+   
   
   lutris-runtime:
     after: [enable-i386]
@@ -124,7 +119,7 @@ parts:
       - gir1.2-gtk-3.0
       - gir1.2-notify-0.7
       - gir1.2-webkit2-4.1
-      - libgnutls30
+      - libgirepository1.0-dev
       - libvulkan1
       - libxrandr2
       - p7zip
@@ -138,12 +133,14 @@ parts:
       - python3-distro
       - python3-cairo
       - python3-lxml
+      - python3-evdev
       - unzip
       - xterm
       - pciutils
       - xz-utils
-      - libmagic1
-      - mesa-utils
+      - x11-xserver-utils
+      - lib32gcc1 
+      - libc6-i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
