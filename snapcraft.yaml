@@ -172,6 +172,50 @@ parts:
       - usr/bin/gamemoderun
       - usr/lib/*/libgamemode*.so.*
   
+  mangohud:
+    source: https://github.com/flightlessmango/MangoHud.git
+    source-tag: "v0.6.8"
+    plugin: meson
+    organize:
+      snap/steam/current/usr: usr
+    build-environment:
+      - CC: gcc -m32
+      - CXX: g++ -m32
+      - PKG_CONFIG_PATH: /usr/lib/i386-linux-gnu/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig
+    meson-parameters:
+      - --prefix=/usr
+      - --libdir=lib/i386-linux-gnu
+      - -Dappend_libdir_mangohud=false
+    build-packages:
+      - gcc
+      - gcc-multilib
+      - g++
+      - g++-multilib
+      - glslang-dev
+      - glslang-tools
+      - libdbus-1-dev
+      - libgl-dev
+      - libglvnd-dev
+      - libx11-dev
+      - libxnvctrl-dev
+      - mesa-common-dev
+      - python3-mako
+
+  mangohud64:
+    after: [mangohud]
+    source: https://github.com/flightlessmango/MangoHud.git
+    source-tag: "v0.6.8"
+    plugin: meson
+    organize:
+      snap/steam/current/usr: usr
+    meson-parameters:
+      - --prefix=/usr
+      - -Dappend_libdir_mangohud=false
+    stage:
+      - -usr/bin/mangohud
+      - -usr/share/vulkan/implicit_layer.d/MangoHud.json
+      - -usr/share/vulkan/implicit_layer.d/libMangoApp.json
+ 
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
