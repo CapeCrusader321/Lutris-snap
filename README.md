@@ -1,4 +1,4 @@
-# Lutris-snap
+# _Lutris Snap_
 ## Snap Builds of Lutris
 ### Download Now !
 <a href="https://snapcraft.io/lutris">
