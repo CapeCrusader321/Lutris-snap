@@ -7,9 +7,8 @@
 
 
 <a href="https://snapcraft.io/lutris">
-  <img alt="Installer à partir du Snap Store" src="https://snapcraft.io/static/images/badges/fr/snap-store-black.svg" />
+  <img alt="Installer à partir du Snap Store" src="https://snapcraft.io/static/images/badges/fr/snap-store-white.svg" />
 </a>
-
 
 
 <a href="https://snapcraft.io/lutris">
@@ -19,5 +18,5 @@
 
 
 <a href="https://snapcraft.io/lutris">
-  <img alt="Pobierz w Snap Store" src="https://snapcraft.io/static/images/badges/pl/snap-store-black.svg" />
+  <img alt="Pobierz w Snap Store" src="https://snapcraft.io/static/images/badges/pl/snap-store-white.svg" />
 </a>
