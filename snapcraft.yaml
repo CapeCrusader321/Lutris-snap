@@ -140,9 +140,7 @@ parts:
       - mesa-utils
       - libvulkan1
       - libgnutls30
-      - mesa-vulkan-drivers:i386
-      - libgl1-mesa-dri:i386
-      - libvulkan1:i386
+      - libgl1-mesa-dri
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
