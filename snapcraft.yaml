@@ -100,7 +100,7 @@ slots:
   
 
 parts:
-  i386-repo:
+  i386:
     plugin: nil
     override-pull: |
       if [ ${CRAFT_TARGET_ARCH} = "amd64" ]; then
@@ -110,7 +110,7 @@ parts:
     
   lutris:
     source: https://github.com/lutris/lutris.git
-    after: [gamemode, lutris-runtime, i386-repo]
+    after: [gamemode, lutris-runtime, i386]
     source-tag: v0.5.13
     plugin: meson
     parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
@@ -128,7 +128,7 @@ parts:
   
   lutris-runtime:
     plugin: nil
-    after:[i386-repo]
+    after: [i386]
     override-build: |
       craftctl default
       dpkg --add-architecture i386
