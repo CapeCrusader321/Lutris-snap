@@ -12,7 +12,13 @@ architectures:
     build-for: amd64
 assumes:
   - snapd2.55.4
-  
+
+package-repositories:
+ - type: apt
+   ppa: graphics-drivers/ppa
+ - type: apt
+   ppa: kisak/kisak-mesa
+
 lint:
   # Snapcraft's `ldd` lint can't handle 32-bit things,
   # So just make it quiet and also make builds a surprising amount faster
@@ -81,7 +87,7 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris.git
-    after: [gamemode, lutris-runtime, enable-i386]
+    after: [gamemode, lutris-runtime]
     source-tag: v0.5.13
     plugin: meson
     parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
@@ -97,17 +103,12 @@ parts:
     organize:
       snap/lutris/current/usr: usr 
   
-  
-  enable-i386:
+  lutris-runtime:
     plugin: nil
     override-build: |
       craftctl default
       dpkg --add-architecture i386
       apt update
-   
-  lutris-runtime:
-    after: [enable-i386]
-    plugin: nil
     stage-packages:
       - cabextract
       - curl
@@ -139,6 +140,9 @@ parts:
       - mesa-utils
       - libvulkan1
       - libgnutls30
+      - mesa-vulkan-drivers:i386
+      - libgl1-mesa-dri:i386
+      - libvulkan1:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
