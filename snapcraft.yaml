@@ -162,7 +162,6 @@ parts:
       - libc6-i386
       - libmagic1
       - libgnutls30
-      
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
