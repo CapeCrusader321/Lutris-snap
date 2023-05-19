@@ -26,41 +26,19 @@ layout:
     bind: $SNAP/graphics/usr/share/libdrm
   /usr/share/drirc.d:
     symlink: $SNAP/graphics/usr/share/drirc.d
-  /usr/share/glvnd/egl_vendor.d:
-    bind: $SNAP/graphics/usr/share/glvnd/egl_vendor.d
-  /usr/lib/x86_64-linux-gnu/libvulkan_intel.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_intel.so
-  /usr/lib/i386-linux-gnu/libvulkan_intel.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_intel.so
-  /usr/lib/x86_64-linux-gnu/libvulkan_lvp.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_lvp.so
-  /usr/lib/i386-linux-gnu/libvulkan_lvp.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_lvp.so
-  /usr/lib/x86_64-linux-gnu/libvulkan_radeon.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_radeon.so
-  /usr/lib/i386-linux-gnu/libvulkan_radeon.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_radeon.so
-  /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
-  /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
-  /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
-  /usr/lib/x86_64-linux-gnu/libxcb.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
-  /usr/lib/x86_64-linux-gnu/libxcb.so.1:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
-  /etc/ld.so.cache:
-    bind-file: $SNAP_DATA/etc/ld.so.cache
-  
+  /usr/share/X11/XErrorDB:
+    symlink: $SNAP/graphics/usr/share/X11/XErrorDB
+  /usr/share/X11/locale:
+    symlink: $SNAP/graphics/usr/share/X11/locale
+ 
 environment:
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
   HOME: $SNAP_USER_COMMON
-  LD_LIBRARY_PATH: $SNAP/graphics/lib/i386-linux-gnu:$SNAP/graphics/usr/lib:$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$SNAP/usr/lib/i386-linux-gnu/pulseaudio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-  LIBGL_DRIVERS_PATH: $SNAP/graphics/usr/lib/i386-linux-gnu/dri:$SNAP/graphics/usr/lib/x86_64-linux-gnu/dri:${LIBGL_DRIVERS_PATH:+:$LIBGL_DRIVERS_PATH}
-
+ 
 apps:
   lutris:
+    command-chain:
+    - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
     common-id: net.lutris.Lutris 
@@ -85,11 +63,11 @@ apps:
       - system-observe
       
 plugs:
-  gaming-mesa:
+  graphics-core22:
     interface: content
     target: $SNAP/graphics
-    default-provider: gaming-graphics-core22
-    
+    default-provider: mesa-core22
+
 slots:    
   lutris:
     interface: dbus
@@ -160,6 +138,7 @@ parts:
       - libc6-i386
       - libmagic1
       - libgnutls30
+      - mesa-utils
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
@@ -184,16 +163,13 @@ parts:
     prime:
       - usr/bin/gamemoderun
       - usr/lib/*/libgamemode*.so.*
-  
-  cleanup:
+      
+  graphics-core22:
     after: [lutris]
-    plugin: nil
-    build-snaps:
-      - gaming-graphics-core22/kisak-fresh/candidate
+    source: https://github.com/MirServer/graphics-core22.git
+    plugin: dump
     override-prime: |
-      set -eux
-      cd /snap/gaming-graphics-core22/current/usr/lib
-      find . -type f,l -exec rm -f $CRAFT_PRIME/usr/lib/{} \;
-      cd /snap/gaming-graphics-core22/current/usr/share
-      find . -type f,l -exec rm -f $CRAFT_PRIME/usr/share/{} \;
-
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
+    prime:
+    - bin/graphics-core22-wrapper
