@@ -161,7 +161,6 @@ parts:
       - x11-xserver-utils
       - libc6-i386
       - libmagic1
-      - mesa-utils
       - libgnutls30
       
     stage:
