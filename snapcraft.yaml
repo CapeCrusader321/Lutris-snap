@@ -13,6 +13,16 @@ architectures:
 assumes:
   - snapd2.55.4
 
+package-repositories:
+  - type: apt
+    architectures: [i386,amd64]
+    key-id: F6ECB3762474EDA9D21B7022871920D1991BC93C
+    key-server: keyserver.ubuntu.com
+    formats: [deb]
+    components: [main, multiverse, universe, restricted]
+    suites: [jammy]
+    url: https://archive.ubuntu.com/ubuntu
+
 lint:
   ignore:
     - library:
@@ -75,15 +85,7 @@ slots:
     name: net.lutris.Lutris  
   
 
-parts:
-  enable32:
-    plugin: nil
-    override-pull: |
-      if [ ${CRAFT_TARGET_ARCH} = "amd64" ]; then
-        dpkg --add-architecture i386
-        apt-get update
-      fi 
-  
+parts:   
   lutris:
     source: https://github.com/lutris/lutris.git
     after: [lutris-runtime]
@@ -104,7 +106,6 @@ parts:
   
   lutris-runtime:
     plugin: nil
-    after: [enable32]
     stage-packages:
       - cabextract
       - curl
