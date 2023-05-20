@@ -200,6 +200,7 @@ parts:
       - libstb-dev 
       - glslang-tools
       - libdrm-dev
+      - libseat-dev
   
   graphics-core22:
     after: [lutris]
