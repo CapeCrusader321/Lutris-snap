@@ -206,6 +206,7 @@ parts:
       - libxcb1-dev
       - libxcb-xkb-dev
       - libxcb-icccm4-dev
+      - libxcb-res0-dev
   
   graphics-core22:
     after: [lutris]
