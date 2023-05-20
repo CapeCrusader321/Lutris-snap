@@ -81,7 +81,7 @@ plugs:
     interface: content
     target: $SNAP/graphics
     default-provider: mesa-core22
-  migrate-lutris-config:
+  lutris-user-config:
     interface: personal-files
     read:
       - $HOME/.config/lutris
