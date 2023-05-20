@@ -176,6 +176,9 @@ parts:
       - build-essential
       - libxxf86vm-dev
       - libxres-dev
+      - libvulkan-dev
+      - libvulkan-volk-dev
+      - vulkan-validationlayers-dev
   
   graphics-core22:
     after: [lutris]
