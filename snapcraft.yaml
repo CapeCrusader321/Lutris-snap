@@ -167,7 +167,7 @@ parts:
     source-tag: 3.11.51
     plugin: meson
     organize:
-      snap/lutris/current/usr
+      snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
     build-packages:
