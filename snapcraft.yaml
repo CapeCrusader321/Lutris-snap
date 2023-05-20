@@ -181,6 +181,7 @@ parts:
       - vulkan-validationlayers-dev
       - libcap-dev
       - libcap-ng-dev
+      - libsdl2-dev
   
   graphics-core22:
     after: [lutris]
