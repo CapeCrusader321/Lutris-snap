@@ -170,10 +170,17 @@ parts:
       snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
+  
+  hwdata:
+    source: https://github.com/vcrhonek/hwdata.git
+    source-tag: v0.370
+    plugin: make
+    build-packages:
+      - build-essential
       
   gamescope:
     source: https://github.com/ValveSoftware/gamescope.git
-    after: [libliftoff]
+    after: [libliftoff, hwdata]
     source-tag: 3.11.51
     plugin: meson
     organize:
