@@ -174,7 +174,7 @@ parts:
   
   mangohud:
     source: https://github.com/flightlessmango/MangoHud.git
-    source-tag: "v0.6.8"
+    source-tag: v0.6.9-1 
     plugin: meson
     organize:
       snap/steam/current/usr: usr
@@ -204,7 +204,7 @@ parts:
   mangohud64:
     after: [mangohud]
     source: https://github.com/flightlessmango/MangoHud.git
-    source-tag: "v0.6.8"
+    source-tag: v0.6.9-1
     plugin: meson
     organize:
       snap/steam/current/usr: usr
