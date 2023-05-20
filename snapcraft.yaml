@@ -12,6 +12,7 @@ architectures:
     build-for: amd64
 assumes:
   - snapd2.55.4
+  - command-chain
 
 package-repositories:
   - type: apt
@@ -40,6 +41,8 @@ layout:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/usr/share/X11/locale
+  /usr/share/zenity:
+    bind: $SNAP/usr/share/zenity
  
 environment:
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
@@ -48,6 +51,7 @@ environment:
 apps:
   lutris:
     command-chain:
+    - bin/migrate-config
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
@@ -77,6 +81,11 @@ plugs:
     interface: content
     target: $SNAP/graphics
     default-provider: mesa-core22
+  migrate-lutris-config:
+    interface: personal-files
+    read:
+      - $HOME/.config/lutris
+      - $HOME/.local/share/lutris
 
 slots:    
   lutris:
@@ -86,6 +95,18 @@ slots:
   
 
 parts:   
+  migrate-script:
+    plugin: dump
+    source: .
+    stage-packages:
+      - zenity
+    stage:
+      - bin/migrate-config
+      - usr/bin/zenity
+      - usr/share/zenity
+    organize:
+      migrate-config: bin/migrate-config
+
   lutris:
     source: https://github.com/lutris/lutris.git
     after: [lutris-runtime]
