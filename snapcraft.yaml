@@ -159,7 +159,38 @@ parts:
     plugin: autotools
     build-packages:
       - build-essential
- 
+  
+       
+  gamescope:
+    source: https://github.com/ValveSoftware/gamescope.git
+    after: [hwdata]
+    source-tag: 3.11.51
+    plugin: meson
+    organize:
+      snap/lutris/current/usr: usr
+    meson-parameters:
+      - --prefix=/usr
+    build-snaps:
+      - cmake
+    build-packages:
+      - build-essential
+      - libxxf86vm-dev
+      - libxres-dev
+      - libvulkan-dev
+      - libcap-dev
+      - libsdl2-dev
+      - libpipewire-0.3-dev
+      - libstb-dev 
+      - glslang-tools
+      - libdrm-dev
+      - libseat-dev
+      - xwayland
+      - libxcb-composite0-dev
+      - libxcb1-dev
+      - libxcb-xkb-dev
+      - libxcb-icccm4-dev
+      - libxcb-res0-dev
+  
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
