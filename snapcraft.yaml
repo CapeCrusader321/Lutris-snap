@@ -116,7 +116,7 @@ parts:
       - gir1.2-glib-2.0
       - gir1.2-gtk-3.0
       - gir1.2-notify-0.7
-      - gir1.2-webkit2-4.0
+      - gir1.2-webkit2-4.1
       - libgirepository1.0-dev
       - p7zip
       - psmisc
@@ -130,13 +130,13 @@ parts:
       - python3-cairo
       - python3-lxml
       - python3-evdev
+      - python3-magic
       - unzip
       - xterm
       - pciutils
       - xz-utils
       - x11-xserver-utils
       - libc6-i386
-      - libmagic1
       - libgnutls30
       - mesa-utils
       - vulkan-tools
