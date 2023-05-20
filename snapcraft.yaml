@@ -175,6 +175,7 @@ parts:
     build-packages:
       - build-essential
       - libxxf86vm-dev
+      - libxres-dev
   
   graphics-core22:
     after: [lutris]
