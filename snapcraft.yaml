@@ -162,15 +162,6 @@ parts:
       - usr/bin/gamemoderun
       - usr/lib/*/libgamemode*.so.*
   
-  libliftoff:
-    source: https://gitlab.freedesktop.org/emersion/libliftoff.git
-    source-tag: v0.4.1
-    plugin: meson
-    organize:
-      snap/lutris/current/usr: usr
-    meson-parameters:
-      - --prefix=/usr
-  
   hwdata:
     source: https://github.com/vcrhonek/hwdata.git
     source-tag: v0.370
@@ -180,7 +171,7 @@ parts:
       
   gamescope:
     source: https://github.com/ValveSoftware/gamescope.git
-    after: [libliftoff, hwdata]
+    after: [hwdata]
     source-tag: 3.11.51
     plugin: meson
     organize:
