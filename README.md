@@ -1,6 +1,6 @@
 # _Lutris Snap_
 ## _Snap Builds of Lutris_
-### Packaged With Gamemode, Gamescope and MangoHUD
+### Packaged With Gamemode, ~Gamescope and MangoHUD~
 
 
 <a href="https://snapcraft.io/lutris">
