@@ -201,6 +201,7 @@ parts:
       - glslang-tools
       - libdrm-dev
       - libseat-dev
+      - xwayland
   
   graphics-core22:
     after: [lutris]
