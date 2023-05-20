@@ -170,6 +170,8 @@ parts:
       snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
+    build-snaps:
+      - cmake
     build-packages:
       - build-essential
   
