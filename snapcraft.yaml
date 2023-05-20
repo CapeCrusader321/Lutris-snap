@@ -203,6 +203,9 @@ parts:
       - libseat-dev
       - xwayland
       - libxcb-composite0-dev
+      - libxcb1-dev
+      - libxcb-xkb-dev
+      - libxcb-icccm4-dev
   
   graphics-core22:
     after: [lutris]
