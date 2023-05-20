@@ -182,6 +182,8 @@ parts:
       - libcap-dev
       - libcap-ng-dev
       - libsdl2-dev
+      - libpipewire-0.3-dev
+      - hwdata
   
   graphics-core22:
     after: [lutris]
