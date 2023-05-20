@@ -161,7 +161,18 @@ parts:
     prime:
       - usr/bin/gamemoderun
       - usr/lib/*/libgamemode*.so.*
-      
+  
+  gamescope:
+    source: https://github.com/ValveSoftware/gamescope.git
+    source-tag: 3.11.51
+    plugin: meson
+    organize:
+      snap/lutris/current/usr
+    meson-parameters:
+      - --prefix=/usr
+    build-packages:
+      - build-essential
+  
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
