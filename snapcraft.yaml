@@ -177,13 +177,13 @@ parts:
       - libxxf86vm-dev
       - libxres-dev
       - libvulkan-dev
-      - libvulkan-volk-dev
-      - vulkan-validationlayers-dev
       - libcap-dev
-      - libcap-ng-dev
       - libsdl2-dev
       - libpipewire-0.3-dev
-      - hwdata
+      - libstb-dev 
+      - libliftoff-dev
+      - glslang-tools
+      - libdrm-dev
   
   graphics-core22:
     after: [lutris]
