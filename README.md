@@ -1,4 +1,4 @@
-# _Lutris Snap_
+# _Lutris Snap (Currently In Beta)_
 ## _Snap Builds of Lutris_
 ### _Upstream --> https://github.com/lutris/lutris_
 
