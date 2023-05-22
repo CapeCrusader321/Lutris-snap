@@ -1,7 +1,9 @@
-# _Lutris Snap (Currently In Beta)_
+# _Lutris Snap_
 ## _Snap Builds of Lutris_
 ### _Upstream --> https://github.com/lutris/lutris_
 ### _Powered By_ --> https://github.com/MirServer/mesa-core22
+
+
 
 <a href="https://snapcraft.io/lutris">
   <img alt="lutris" src="https://snapcraft.io/lutris/badge.svg" />
