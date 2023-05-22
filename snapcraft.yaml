@@ -66,6 +66,7 @@ environment:
 apps:
   lutris:
     command-chain:
+    - bin/gnome-extension-hack
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
@@ -103,7 +104,27 @@ slots:
     name: net.lutris.Lutris  
   
 
-parts:   
+parts:
+  gnome-extension-hack:
+    plugin: dump
+    source: .
+    override-pull: |
+      cat <<'EOF' > gnome-extension-hack
+      #!/bin/sh
+      rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
+      if [ "$SNAP_ARCH" = "amd64" ]; then
+        export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
+
+        export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
+        export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
+      fi
+      exec "$@"
+      EOF
+      chmod +x gnome-extension-hack
+    organize:
+      gnome-extension-hack: bin/gnome-extension-hack
+  
   lutris:
     source: https://github.com/lutris/lutris.git
     after: [lutris-runtime]
