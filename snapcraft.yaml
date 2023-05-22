@@ -46,8 +46,6 @@ layout:
     symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan.so.1
   /usr/lib/i386-linux-gnu/libGL.so.1:
     symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libGL.so.1
-  /usr/lib/i386-linux-gnu/libgnutls.so.30:
-    symlink: $SNAP/usr/lib/i386-linux-gnu/libgnutls.so.30
   /usr/lib/x86_64-linux-gnu/libvulkan_intel.so:
     symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_intel.so
   /usr/lib/i386-linux-gnu/libvulkan_intel.so:
@@ -157,8 +155,13 @@ parts:
       - libgnutls30
       - mesa-utils
       - vulkan-tools
+      - wine32
       - on amd64:
         - libgnutls30:i386
+        - libasound2-plugins:i386
+        - libsdl2-2.0-0:i386
+        - libdbus-1-3:i386
+        - libsqlite3-0:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
