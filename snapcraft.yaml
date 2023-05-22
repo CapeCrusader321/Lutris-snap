@@ -146,7 +146,7 @@ parts:
       - mesa-utils
       - vulkan-tools
       - on amd64:
-        - libgnutls30:1386
+        - libgnutls30:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
