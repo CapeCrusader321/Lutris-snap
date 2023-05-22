@@ -68,6 +68,7 @@ environment:
 apps:
   lutris:
     command-chain:
+    - bin/gnome-extension-hack
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
