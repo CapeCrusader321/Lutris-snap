@@ -154,13 +154,6 @@ parts:
       - -usr/lib/*/libwebkit*
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
-  
-  hwdata:
-    source: https://github.com/vcrhonek/hwdata.git
-    source-tag: v0.370
-    plugin: autotools
-    build-packages:
-      - build-essential
  
   gamemode:
     source: https://github.com/ashuntu/gamemode.git
