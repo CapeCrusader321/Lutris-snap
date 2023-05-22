@@ -1,9 +1,6 @@
 name: lutris
 base: core22
 adopt-info: lutris
-summary: Video game preservation platform.
-description: |
-   Lutris helps you install and play video games from all eras and from most gaming systems. 
 grade: stable
 confinement: strict
 compression: lzo
