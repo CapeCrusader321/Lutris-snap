@@ -154,7 +154,6 @@ parts:
       - libgnutls30
       - mesa-utils
       - vulkan-tools
-      - wine32
       - on amd64:
         - libgnutls30:i386
         - libasound2-plugins:i386
