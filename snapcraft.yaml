@@ -59,16 +59,15 @@ layout:
   /usr/lib/i386-linux-gnu/libvulkan_radeon.so:
     symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_radeon.so  
     
-environment:
-  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-  HOME: $SNAP_USER_COMMON
- 
 apps:
   lutris:
     command-chain:
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
+    environment:
+      PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
+      HOME: $SNAP_USER_COMMON
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
