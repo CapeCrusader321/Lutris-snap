@@ -54,7 +54,9 @@ layout:
   /usr/lib/x86_64-linux-gnu/libvulkan_radeon.so:
     symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_radeon.so
   /usr/lib/i386-linux-gnu/libvulkan_radeon.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_radeon.so  
+    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_radeon.so 
+  /usr/lib/i386-linux-gnu/libgnutls.so.30:
+    symlink: $SNAP/usr/lib/i386-linux-gnu/libgnutls.so.30    
   /etc/ld.so.cache:
     bind-file: $SNAP_DATA/etc/ld.so.cache  
 
