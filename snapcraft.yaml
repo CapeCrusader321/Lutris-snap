@@ -184,6 +184,9 @@ parts:
         - libsdl2-2.0-0:i386
         - libdbus-1-3:i386
         - libsqlite3-0:i386
+        - libx11-6:i386
+        - x11-xserver-utils:i386
+        - libglvnd0:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
