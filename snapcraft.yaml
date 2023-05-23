@@ -97,7 +97,8 @@ parts:
         export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
         export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
         export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
-        export APPIMAGE_EXTRACT_AND_RUN=1 
+        export APPIMAGE_EXTRACT_AND_RUN=1
+        export TMPDIR="$HOME/common/.cache/lutris/tmp"
       fi
       exec "$@"
       EOF
