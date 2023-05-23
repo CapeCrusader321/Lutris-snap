@@ -92,7 +92,9 @@ apps:
       - mount-observe
       - system-observe
       - fuse-support
-      
+      - physical-memory-observe
+      - upower-observe
+      - raw-usb
 plugs:
   graphics-core22:
     interface: content
