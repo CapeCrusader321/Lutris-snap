@@ -63,8 +63,9 @@ environment:
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
   HOME: $SNAP_USER_COMMON
   TMPDIR: $XDG_RUNTIME_DIR
+  APPIMAGE_EXTRACT_AND_RUN: 1
 
-apps:
+apps: 
   lutris:
     command-chain:
     - bin/gnome-extension-hack
@@ -118,10 +119,10 @@ parts:
       rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
       if [ "$SNAP_ARCH" = "amd64" ]; then
         export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
-
         export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
         export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
         export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
+        export APPIMAGE_EXTRACT_AND_RUN=1 
       fi
       exec "$@"
       EOF
