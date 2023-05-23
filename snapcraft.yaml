@@ -35,29 +35,7 @@ layout:
   /usr/share/X11/XErrorDB:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
-    symlink: $SNAP/graphics/usr/share/X11/locale
-  /usr/lib/x86_64-linux-gnu/libvulkan.so.1:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan.so.1
-  /usr/lib/i386-linux-gnu/libvulkan.so.1:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan.so.1
-  /usr/lib/i386-linux-gnu/libGL.so.1:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libGL.so.1
-  /usr/lib/x86_64-linux-gnu/libvulkan_intel.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_intel.so
-  /usr/lib/i386-linux-gnu/libvulkan_intel.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_intel.so
-  /usr/lib/x86_64-linux-gnu/libvulkan_lvp.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_lvp.so
-  /usr/lib/i386-linux-gnu/libvulkan_lvp.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_lvp.so
-  /usr/lib/x86_64-linux-gnu/libvulkan_radeon.so:
-    symlink: $SNAP/graphics/usr/lib/x86_64-linux-gnu/libvulkan_radeon.so
-  /usr/lib/i386-linux-gnu/libvulkan_radeon.so:
-    symlink: $SNAP/graphics/usr/lib/i386-linux-gnu/libvulkan_radeon.so 
-  /usr/lib/i386-linux-gnu/libgnutls.so.30:
-    symlink: $SNAP/usr/lib/i386-linux-gnu/libgnutls.so.30    
-  /etc/ld.so.cache:
-    bind-file: $SNAP_DATA/etc/ld.so.cache  
+    symlink: $SNAP/graphics/usr/share/X11/locale   
 
 environment:
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
