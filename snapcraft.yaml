@@ -40,7 +40,6 @@ layout:
 environment:
   PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
   HOME: $SNAP_USER_COMMON
-  TMPDIR: $XDG_RUNTIME_DIR
   
 apps: 
   lutris:
@@ -100,7 +99,7 @@ parts:
         export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
         export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
         export APPIMAGE_EXTRACT_AND_RUN=1
-        export TMPDIR="$(xdg-user-dir DOWNLOAD)/lutris.tmp"
+        export TMPDIR="$HOME/common/.cache/lutris/tmp"
       fi
       exec "$@"
       EOF
