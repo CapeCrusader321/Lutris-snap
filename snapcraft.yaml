@@ -178,6 +178,8 @@ parts:
       - libgnutls30
       - mesa-utils
       - vulkan-tools
+      - gettext
+      - libvulkan1
       - on amd64:
         - libgnutls30:i386
         - libasound2-plugins:i386
