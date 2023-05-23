@@ -8,8 +8,7 @@ architectures:
   - build-on: amd64
     build-for: amd64
 assumes:
-  - snapd2.55.4
-
+  - snapd2.59.2
 package-repositories:
   - type: apt
     architectures: [i386,amd64]
