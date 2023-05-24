@@ -173,7 +173,25 @@ parts:
       - -usr/lib/*/libwebkit*
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
- 
+  
+  
+  gamemode:
+    source: https://github.com/ashuntu/gamemode.git
+    source-branch: "add-snap-support"
+    plugin: meson
+    organize:
+      snap/lutris/current/usr: usr
+    meson-parameters:
+      - --prefix=/usr
+    build-packages:
+      - libsystemd-dev
+      - pkg-config
+      - libdbus-1-dev
+    prime:
+      - usr/bin/gamemoderun
+      - usr/lib/*/libgamemode*.so.*
+   
+  
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
