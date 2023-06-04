@@ -8,7 +8,8 @@ architectures:
   - build-on: amd64
     build-for: amd64
 assumes:
-  - snapd2.59.2
+  - snapd2.59
+  
 package-repositories:
   - type: apt
     architectures: [i386,amd64]
@@ -71,6 +72,7 @@ apps:
       - physical-memory-observe
       - upower-observe
       - raw-usb
+      
 plugs:
   graphics-core22:
     interface: content
@@ -93,10 +95,6 @@ parts:
       #!/bin/sh
       rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
       if [ "$SNAP_ARCH" = "amd64" ]; then
-        export LD_LIBRARY_PATH="$SNAP/usr/lib/i386-linux-gnu:$SNAP/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
-        export LIBGL_DRIVERS_PATH="$LIBGL_DRIVERS_PATH:$SNAP/usr/lib/i386-linux-gnu/dri"
-        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIBGL_DRIVERS_PATH"
-        export LIBVA_DRIVERS_PATH="$SNAP/usr/lib/i386-linux-gnu/dri"
         export APPIMAGE_EXTRACT_AND_RUN=1
       fi
       exec "$@"
