@@ -191,7 +191,7 @@ parts:
     source-tag: "v0.6.8"
     plugin: meson
     organize:
-      snap/steam/current/usr: usr
+      snap/lutris/current/usr: usr
     build-environment:
       - CC: gcc -m32
       - CXX: g++ -m32
@@ -221,7 +221,7 @@ parts:
     source-tag: "v0.6.8"
     plugin: meson
     organize:
-      snap/steam/current/usr: usr
+      snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
       - -Dappend_libdir_mangohud=false
