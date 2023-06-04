@@ -47,7 +47,7 @@ apps:
     extensions: [gnome]
     environment:
       PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-      HOME: $SNAP_DATA
+      HOME: $SNAP_USER_COMMON
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
