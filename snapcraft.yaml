@@ -52,6 +52,7 @@ apps:
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
       - home
+      - shmem
       - audio-playback
       - network
       - network-bind
@@ -78,6 +79,9 @@ plugs:
     interface: content
     target: $SNAP/graphics
     default-provider: mesa-core22
+  shmem:
+    interface: shared-memory
+    private: true
 
 slots:    
   lutris:
