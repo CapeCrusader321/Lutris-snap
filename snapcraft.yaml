@@ -93,7 +93,6 @@ parts:
     override-pull: |
       cat <<'EOF' > gnome-extension-hack
       #!/bin/sh
-      rm -f "$XDG_DATA_HOME/icons/hicolor/"* || true
       if [ "$SNAP_ARCH" = "amd64" ]; then
         export APPIMAGE_EXTRACT_AND_RUN=1
       fi
