@@ -48,6 +48,7 @@ apps:
     environment:
       PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
       HOME: $SNAP_USER_COMMON
+      TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
