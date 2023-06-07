@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Migrate old Lutris configuration into the snap.
+CONFIG="$SNAP_USER_COMMON/.config"
+SHARE="$SNAP_USER_COMMON/.local/share"
+OLD_CONFIG="$SNAP_REAL_HOME/.config/lutris"
+OLD_SHARE="$SNAP_REAL_HOME/.local/share/lutris"
+src_count=$(find $OLD_CONFIG $OLD_SHARE | wc -l)
+if [ ! -d "$CONFIG/lutris" -a -d "$OLD_CONFIG" -a $src_count -ge 1 ]; then
+    if zenity --question --title "Migrate Lutris Config" --text "Existing Lutris configuration found. Would you like to migrate it to the Snap?"; then
+        mkdir -p "$CONFIG"
+        mkdir -p "$SHARE"
+        cp -Ra "$OLD_CONFIG" "$CONFIG" &
+        cp -Ra "$OLD_SHARE" "$SHARE" &
+
+        (
+            dest_count=0
+            while [ $dest_count -lt $src_count ]; do
+                dest_count=$(find $CONFIG $SHARE | wc -l)
+                echo $(( $dest_count * 100 / $src_count ))
+                sleep 0.1
+            done
+        ) |
+        zenity --progress --title "Lutris Migration" --text "Migrating Lutris configuration..." --percentage=0 --auto-close || exit 1
+        wait
+        if [ "$?" -ne 0 ]; then
+            zenity --error --text="Migration failed. Starting with fresh configuration..." &
+            rm -rf "$CONFIG" "$SHARE"
+            wait
+        fi
+    fi
+fi
+
+# Run the rest of the command chain.
+$@
