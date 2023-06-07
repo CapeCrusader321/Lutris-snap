@@ -2,7 +2,7 @@ name: lutris
 base: core22
 adopt-info: lutris
 grade: stable
-confinement: strict
+confinement: devmode
 compression: lzo
 architectures:
   - build-on: amd64
