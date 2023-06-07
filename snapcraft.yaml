@@ -1,9 +1,6 @@
 name: lutris
 base: core22
 adopt-info: lutris
-summary: Video game preservation platform.
-description: |
-   Lutris helps you install and play video games from all eras and from most gaming systems. 
 grade: stable
 confinement: strict
 compression: lzo
@@ -11,7 +8,7 @@ architectures:
   - build-on: amd64
     build-for: amd64
 assumes:
-  - snapd2.55.4
+  - snapd2.59
   - command-chain
 
 package-repositories:
@@ -40,25 +37,27 @@ layout:
   /usr/share/X11/XErrorDB:
     symlink: $SNAP/graphics/usr/share/X11/XErrorDB
   /usr/share/X11/locale:
-    symlink: $SNAP/graphics/usr/share/X11/locale
+    symlink: $SNAP/graphics/usr/share/X11/locale   
   /usr/share/zenity:
-    bind: $SNAP/usr/share/zenity
- 
-environment:
-  PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
-  HOME: $SNAP_USER_COMMON
- 
-apps:
+    bind: $SNAP/usr/share/zenity 
+   
+apps: 
   lutris:
     command-chain:
     - bin/migrate-config
     - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
+    environment:
+      PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages:$PYTHONPATH
+      HOME: $SNAP_USER_COMMON
+      TMPDIR: $XDG_RUNTIME_DIR
+      APPIMAGE_EXTRACT_AND_RUN: 1
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
       - home
+      - shmem
       - audio-playback
       - network
       - network-bind
@@ -75,6 +74,10 @@ apps:
       - hardware-observe
       - mount-observe
       - system-observe
+      - fuse-support
+      - physical-memory-observe
+      - upower-observe
+      - raw-usb
       
 plugs:
   graphics-core22:
@@ -86,6 +89,9 @@ plugs:
     read:
       - $HOME/.config/lutris
       - $HOME/.local/share/lutris
+  shmem:
+    interface: shared-memory
+    private: true
 
 slots:    
   lutris:
@@ -106,13 +112,12 @@ parts:
       - usr/share/zenity
     organize:
       migrate-config: bin/migrate-config
-
+      
   lutris:
     source: https://github.com/lutris/lutris.git
     after: [lutris-runtime]
-    source-tag: v0.5.13
     plugin: meson
-    parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
+    parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     meson-parameters:
       - --prefix=/snap/lutris/current/usr
     override-pull: |
@@ -135,7 +140,7 @@ parts:
       - gir1.2-gtk-3.0
       - gir1.2-notify-0.7
       - gir1.2-webkit2-4.1
-      - libgirepository1.0-dev
+      - libgirepository-1.0-1 
       - p7zip
       - psmisc
       - python3-dbus
@@ -158,13 +163,16 @@ parts:
       - libgnutls30
       - mesa-utils
       - vulkan-tools
-      - libvulkan1 
+      - gettext
+      - libvulkan1
       - on amd64:
-        - mesa-vulkan-drivers:i386
-        - libvulkan1:i386
         - libgnutls30:i386
-        - libopenal1:i386
-        - libgl1-mesa-dri:i386
+        - libasound2-plugins:i386
+        - libsdl2-2.0-0:i386
+        - libdbus-1-3:i386
+        - libsqlite3-0:i386
+        - libx11-6:i386
+        - libglvnd0:i386
     stage:
       - -lib/ld-linux.so.2
       - -usr/bin/cpp-7
@@ -173,14 +181,22 @@ parts:
       - -usr/share/doc/cpp/README.Debian
       - -usr/share/man/man1/cpp-7.1.gz
   
-  
-  hwdata:
-    source: https://github.com/vcrhonek/hwdata.git
-    source-tag: v0.370
-    plugin: autotools
+  gamemode:
+    source: https://github.com/ashuntu/gamemode.git
+    source-branch: "add-snap-support"
+    plugin: meson
+    organize:
+      snap/lutris/current/usr: usr
+    meson-parameters:
+      - --prefix=/usr
     build-packages:
-      - build-essential
- 
+      - libsystemd-dev
+      - pkg-config
+      - libdbus-1-dev
+    prime:
+      - usr/bin/gamemoderun
+      - usr/lib/*/libgamemode*.so.*
+   
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
