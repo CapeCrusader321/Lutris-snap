@@ -96,7 +96,7 @@ parts:
     source: https://github.com/lutris/lutris.git
     after: [lutris-runtime]
     plugin: meson
-    parse-info: [share/metainfo/net.lutris.Lutris.metainfo.xml]
+    parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     meson-parameters:
       - --prefix=/snap/lutris/current/usr
     override-pull: |
