@@ -1,7 +1,7 @@
 name: lutris
 base: core22
 adopt-info: lutris
-grade: stable
+grade: devel
 confinement: devmode
 compression: lzo
 architectures:
