@@ -132,7 +132,7 @@ parts:
       # WORKAROUND: Use python from search path, the path detected by meson doesn't exist when running the Snap
       sed -e '1c#!/usr/bin/env python3' -i ${CRAFT_PART_INSTALL}/snap/lutris/current/usr/bin/lutris
     organize:
-      snap/lutris/current/usr: usr 
+      snap/lutris/current: . 
   
   lutris-runtime:
     plugin: nil
@@ -189,8 +189,6 @@ parts:
     source: https://github.com/ashuntu/gamemode.git
     source-branch: "add-snap-support"
     plugin: meson
-    organize:
-      snap/lutris/current/usr: usr
     meson-parameters:
       - --prefix=/usr
     build-packages:
@@ -200,7 +198,47 @@ parts:
     prime:
       - usr/bin/gamemoderun
       - usr/lib/*/libgamemode*.so.*
-   
+
+  mangohud:
+    source: https://github.com/flightlessmango/MangoHud.git
+    source-tag: "v0.6.8"
+    plugin: meson
+    build-environment:
+      - CC: gcc -m32
+      - CXX: g++ -m32
+      - PKG_CONFIG_PATH: /usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+    meson-parameters:
+      - --prefix=/usr
+      - --libdir=lib/i386-linux-gnu
+      - -Dappend_libdir_mangohud=false
+    build-packages:
+      - gcc
+      - gcc-multilib
+      - g++
+      - g++-multilib
+      - glslang-dev
+      - glslang-tools
+      - libdbus-1-dev
+      - libgl-dev
+      - libglvnd-dev
+      - libx11-dev
+      - libxnvctrl-dev
+      - mesa-common-dev
+      - python3-mako
+
+  mangohud64:
+    after: [mangohud]
+    source: https://github.com/flightlessmango/MangoHud.git
+    source-tag: "v0.6.8"
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+      - -Dappend_libdir_mangohud=false
+    stage:
+      - -usr/bin/mangohud
+      - -usr/share/vulkan/implicit_layer.d/MangoHud.json
+      - -usr/share/vulkan/implicit_layer.d/libMangoApp.json
+
   graphics-core22:
     after: [lutris]
     source: https://github.com/MirServer/graphics-core22.git
