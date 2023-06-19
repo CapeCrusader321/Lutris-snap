@@ -109,6 +109,7 @@ parts:
       - zenity
     override-build: |
       chmod 755 $CRAFT_PART_SRC/migrate-config
+      craftctl default
     stage:
       - bin/migrate-config
       - usr/bin/zenity
