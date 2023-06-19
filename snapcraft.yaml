@@ -107,6 +107,8 @@ parts:
     source: .
     stage-packages:
       - zenity
+    override-build: |
+      chmod 755 $CRAFT_PART_SRC/migrate-config
     stage:
       - bin/migrate-config
       - usr/bin/zenity
